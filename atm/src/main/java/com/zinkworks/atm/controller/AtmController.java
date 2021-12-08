@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.zinkworks.atm.exception.AccountNumberNotFoundException;
 import com.zinkworks.atm.exception.InsufficientBalanceException;
 import com.zinkworks.atm.exception.InvalidPinNumberException;
+import com.zinkworks.atm.exception.MinimumWithdrawLimitException;
 import com.zinkworks.atm.exception.OutOfCashException;
 import com.zinkworks.atm.model.AtmCashDetails;
 import com.zinkworks.atm.model.TransactionDetail;
@@ -74,9 +75,10 @@ public class AtmController {
 	 * @throws InvalidPinNumberException
 	 * @throws InsufficientBalanceException
 	 * @throws OutOfCashException
+	 * @throws MinimumWithdrawLimitException 
 	 */
 	@GetMapping(value = "/withDraw/{accountNumber}/{pin}/{amount}")
-	public ResponseEntity<TransactionDetail> withDrawAmount(@PathVariable("accountNumber")  long accountNumber,@PathVariable("pin")  int pin, @PathVariable("amount")  int withDrawamount) throws AccountNumberNotFoundException, InvalidPinNumberException, InsufficientBalanceException, OutOfCashException{
+	public ResponseEntity<TransactionDetail> withDrawAmount(@PathVariable("accountNumber")  long accountNumber,@PathVariable("pin")  int pin, @PathVariable("amount")  int withDrawamount) throws AccountNumberNotFoundException, InvalidPinNumberException, InsufficientBalanceException, OutOfCashException, MinimumWithdrawLimitException{
 		
 		TransactionDetail transactionDetail = null;
 		UserAccount userAccount =bankAccountService.validateAccountdDetails(accountNumber, pin);

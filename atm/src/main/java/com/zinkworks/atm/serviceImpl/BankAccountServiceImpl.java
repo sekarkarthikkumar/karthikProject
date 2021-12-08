@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.zinkworks.atm.exception.AccountNumberNotFoundException;
 import com.zinkworks.atm.exception.InsufficientBalanceException;
 import com.zinkworks.atm.exception.InvalidPinNumberException;
+import com.zinkworks.atm.exception.MinimumWithdrawLimitException;
 import com.zinkworks.atm.exception.OutOfCashException;
 import com.zinkworks.atm.model.AtmCashDetails;
 import com.zinkworks.atm.model.TransactionDetail;
@@ -50,12 +51,19 @@ public class BankAccountServiceImpl implements BankAccountService {
 
 
 	/** Method used to validate the withdrawal amount, calculate the notes detail and update the existing atm notes details 
+	 * @throws MinimumWithdrawLimitException 
 	 * 
 	 */
 	@Override
-	public TransactionDetail withDrawAmount(UserAccount userAcc, Integer withDrawalAmt) throws InsufficientBalanceException, OutOfCashException {
+	public TransactionDetail withDrawAmount(UserAccount userAcc, Integer withDrawalAmt) throws InsufficientBalanceException, OutOfCashException, MinimumWithdrawLimitException {
 	
+		
 		logger.info("Inside withDrawAmount ");
+		
+		if(withDrawalAmt < 20) {
+			throw new MinimumWithdrawLimitException("Minimum withdrawal amount should be 20 Euro. Please try again");
+		}
+		
 		long maxWithDrawAmount = userAcc.getBalanceAmount() +  userAcc.getOverdraftAmount();
 		int withDrawAmount = withDrawalAmt;
 		if( withDrawAmount > maxWithDrawAmount) {
@@ -63,7 +71,7 @@ public class BankAccountServiceImpl implements BankAccountService {
 		}
 		
 		Long totalAtmAmountBal = atmCashDetailRespository.findAll().stream().mapToLong(p->p.getNotesValue() * p.getNotesVolume()).sum();
-		logger.info("totalBankAmountBal " + totalAtmAmountBal);
+		logger.info("totalAtmAmountBal " + totalAtmAmountBal);
 				
 		if (withDrawAmount > totalAtmAmountBal ) {
 			throw new OutOfCashException("Sorry! ATM Machine got OUT of CASH");

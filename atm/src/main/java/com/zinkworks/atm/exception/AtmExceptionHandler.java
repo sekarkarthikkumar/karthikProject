@@ -17,6 +17,7 @@ public class AtmExceptionHandler extends ResponseEntityExceptionHandler
     private String INCORRECT_REQUEST = "INCORRECT_REQUEST";
     private String INSUFFICIENT_BALANCE = "INSUFFICIENT_BALANCE";
     private String OUT_OF_CASH = "OUT_OF_CASH";
+    private String MINIMUM_WITHDRAWAL = "LESS_THAN_MINIMUM_WITHDRAWAL_AMOUNT";
     
      
     @ExceptionHandler(AccountNumberNotFoundException.class)
@@ -48,6 +49,14 @@ public class AtmExceptionHandler extends ResponseEntityExceptionHandler
                         (OutOfCashException ex, WebRequest request) {
       
         ErrorResponse errorResponse = new ErrorResponse(OUT_OF_CASH,  ex.getLocalizedMessage());
+        return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.OK);
+    }
+    
+    @ExceptionHandler(MinimumWithdrawLimitException.class)
+    public final ResponseEntity<ErrorResponse> hanldeMinimumWithdrawAmountException
+                        (MinimumWithdrawLimitException ex, WebRequest request) {
+      
+        ErrorResponse errorResponse = new ErrorResponse(MINIMUM_WITHDRAWAL,  ex.getLocalizedMessage());
         return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.OK);
     }
 }

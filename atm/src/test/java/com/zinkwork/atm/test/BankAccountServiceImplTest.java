@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.zinkworks.atm.exception.InsufficientBalanceException;
+import com.zinkworks.atm.exception.MinimumWithdrawLimitException;
 import com.zinkworks.atm.exception.OutOfCashException;
 import com.zinkworks.atm.model.AtmCashDetails;
 import com.zinkworks.atm.model.TransactionDetail;
@@ -73,15 +74,6 @@ public class BankAccountServiceImplTest {
 		return cashList;
 	}
 	
-	/*
-	private static TransactionDetail getTransactionDetailTest1() {
-		TransactionDetail transDetail = new TransactionDetail();
-		transDetail.setDescription("Check Balance");
-		transDetail.setAmount(800);
-		transDetail.setTransactionStatus("SUCCESS");
-		transDetail.setDescription("Remaining balance is "+800 + " , but you can also withDraw upto "+ 1000);
-		return transDetail;
-	}*/
 	
 	@Test
 	public void findAccountTest() {			
@@ -125,7 +117,7 @@ public class BankAccountServiceImplTest {
 		//getting withdraw amount and remaining balance details
 		try {
 			transactionDetail=bankAccountService.withDrawAmount(account,withDrawAmt);
-		} catch (InsufficientBalanceException | OutOfCashException e) {
+		} catch (InsufficientBalanceException | OutOfCashException | MinimumWithdrawLimitException e) {
 			e.printStackTrace();
 		} 
 		Assert.assertEquals(withDrawAmt,transactionDetail.getAmount());

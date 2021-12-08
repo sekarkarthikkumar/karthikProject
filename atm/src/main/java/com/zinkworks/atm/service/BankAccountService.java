@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.zinkworks.atm.exception.AccountNumberNotFoundException;
 import com.zinkworks.atm.exception.InsufficientBalanceException;
 import com.zinkworks.atm.exception.InvalidPinNumberException;
+import com.zinkworks.atm.exception.MinimumWithdrawLimitException;
 import com.zinkworks.atm.exception.OutOfCashException;
 import com.zinkworks.atm.model.AtmCashDetails;
 import com.zinkworks.atm.model.TransactionDetail;
@@ -19,7 +20,7 @@ public UserAccount validateAccountdDetails(long Account, int pin) throws Account
 
 public TransactionDetail getAccountBalance(UserAccount account);
 
-public TransactionDetail withDrawAmount(UserAccount account, Integer amount) throws InsufficientBalanceException, OutOfCashException;
+public TransactionDetail withDrawAmount(UserAccount account, Integer amount) throws InsufficientBalanceException, OutOfCashException, MinimumWithdrawLimitException;
 
 public List<AtmCashDetails> loadCash(List<AtmCashDetails>  atmDetails); 
 
