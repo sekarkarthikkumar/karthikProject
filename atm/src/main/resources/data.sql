@@ -1,0 +1,8 @@
+INSERT INTO User_Account VALUES ('123456789','1234','800','200');
+INSERT INTO User_Account VALUES ('987654321','4321','2230','150');
+
+
+INSERT INTO Atm_Cash_Details VALUES (50, 10);
+INSERT INTO Atm_Cash_Details VALUES (20, 30);
+INSERT INTO Atm_Cash_Details VALUES (10, 30);
+INSERT INTO Atm_Cash_Details VALUES (5, 20);
