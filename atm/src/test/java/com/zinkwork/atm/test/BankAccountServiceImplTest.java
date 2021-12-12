@@ -111,7 +111,7 @@ public class BankAccountServiceImplTest {
 		long accNo = 123456789L;
 		int pin =1234;
 		int withDrawAmt = 125;
-		String description="Remaining balance in your account is "+ 875;
+		String description="Remaining balance in your account is "+ 675;
 		UserAccount account = bankAccountService.findByAccountNumberAndPin(accNo, pin);
 		TransactionDetail  transactionDetail=null;
 		//getting withdraw amount and remaining balance details

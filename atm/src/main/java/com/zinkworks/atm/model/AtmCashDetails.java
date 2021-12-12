@@ -2,6 +2,7 @@ package com.zinkworks.atm.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import lombok.Data;
 import lombok.Getter;
@@ -11,6 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@Table(name="ATM_CASH_DETAILS")
 public class AtmCashDetails {
 	
 	public AtmCashDetails() {

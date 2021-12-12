@@ -2,6 +2,8 @@ package com.zinkworks.atm.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import com.zinkworks.atm.exception.AccountNumberNotFoundException;

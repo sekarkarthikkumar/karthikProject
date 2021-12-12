@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,7 @@ import com.zinkworks.atm.respository.BankAccountRespository;
 import com.zinkworks.atm.service.BankAccountService;
 
 @Service
+@Transactional
 public class BankAccountServiceImpl implements BankAccountService {
 
     private final Logger logger = LoggerFactory.getLogger(BankAccountServiceImpl.class);
@@ -60,8 +63,8 @@ public class BankAccountServiceImpl implements BankAccountService {
 		
 		logger.info("Inside withDrawAmount ");
 		
-		if(withDrawalAmt < 20) {
-			throw new MinimumWithdrawLimitException("Minimum withdrawal amount should be 20 Euro. Please try again");
+		if(withDrawalAmt < 20  || (withDrawalAmt%5) != 0 ) {
+			throw new MinimumWithdrawLimitException("Minimum withdrawal amount should be 20 Euro / Amount should be multiple of 5. Please try again");
 		}
 		
 		long maxWithDrawAmount = userAcc.getBalanceAmount() +  userAcc.getOverdraftAmount();
@@ -108,7 +111,11 @@ public class BankAccountServiceImpl implements BankAccountService {
 		List<AtmCashDetails> atmCashDetails =currentAtmCash.entrySet().stream().map(p-> new AtmCashDetails(p.getKey(),p.getValue())).collect(Collectors.toList());
 		atmCashDetailRespository.saveAll(atmCashDetails);
 		
-		Long remainingAccBal = maxWithDrawAmount - Long.parseLong(withDrawalAmt.toString());
+		//Updating remaining balance in account
+		long  remainingAccBal = userAcc.getBalanceAmount() - withDrawalAmt;
+		bankAccountRespository.updateAccountBalance(remainingAccBal, userAcc.getAccountNumber());
+		
+		//Long remainingAccBal = maxWithDrawAmount - Long.parseLong(withDrawalAmt.toString());
 		TransactionDetail transactionDetail = new TransactionDetail();
 		transactionDetail.setAmount(withDrawalAmt);
 		transactionDetail.setNotesDetails(actualCashNeeded);

@@ -1,13 +1,13 @@
-CREATE TABLE User_Account (
-  account_Number INTEGER(9) NOT NULL,
+CREATE TABLE USER_ACCOUNT (
+  account_number INTEGER(9) NOT NULL,
   pin INTEGER(4) NOT NULL,
-  balance_Amount DOUBLE (10),
-  overdraft_Amount DOUBLE(10),  
-  PRIMARY KEY (account_Number)
+  balance_amount DOUBLE (10),
+  overdraft_amount DOUBLE(10),  
+  PRIMARY KEY (account_number)
 );
 
-CREATE TABLE Atm_Cash_Details (
-  notes_Value INTEGER NOT NULL ,
-  notes_Volume INTEGER,
-  PRIMARY KEY (notes_Value)
+CREATE TABLE ATM_CASH_DETAILS (
+  notes_value INTEGER NOT NULL ,
+  notes_volume INTEGER,
+  PRIMARY KEY (notes_value)
 );
